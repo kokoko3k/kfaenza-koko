@@ -1,2 +1,1 @@
-vedi che nel file window-close ci sono altre 2 immagini di "uscita" 
-media-optical-copy.svg ha altre icone all'interno
+../.././source-by-size/scalable/nota.txt
