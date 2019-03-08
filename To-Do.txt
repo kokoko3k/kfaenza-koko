@@ -5,4 +5,3 @@
 		problema icona configura (control center)
 		icona "menu" di simplescan
 		icone chiusura finestra gtk
-		i vari dialog-ettot,info,question,warning alle dimensioni maggiori, dovrebbero tornare al loro look iniziale, con il frame. 
