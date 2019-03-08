@@ -1,5 +1,1 @@
-
-		problema icona "compila tutto visibile nella finestra principale di gambas
-		problema icona localizza
-		problema icona configura (control center)
 		icone chiusura finestra gtk
