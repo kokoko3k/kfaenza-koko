@@ -1,7 +1,5 @@
 
-		problema icona colorata (fumetto su sfonto giallo), visibile nella finestra traduzione progetto di gambas
 		problema icona "compila tutto visibile nella finestra principale di gambas
 		problema icona localizza
 		problema icona configura (control center)
-		icona "menu" di simplescan
 		icone chiusura finestra gtk
