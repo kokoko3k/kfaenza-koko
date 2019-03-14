@@ -1,2 +1,2 @@
 icone chiusura finestra gtk
-icona di chiusura pannello in dolphin, forse conviene prendere la svg visibile nella dimensione maggiore e vedere di adattarla alle dimensioni minori
+
