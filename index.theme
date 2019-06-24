@@ -4,7 +4,7 @@ Name=KFaenza-koko
 Comment=Icon theme project with stilish style, by Tiheum, KDE port, adapted by kokoko3k
 
 DisplayDepth=32
-Inherits=breeze,hicolor
+Inherits=breeze-dark,breeze,hicolor
 Version=0.8.7
 
 Example=folder
