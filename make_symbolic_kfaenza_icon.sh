@@ -32,7 +32,7 @@ blur_emboss=0x24	#size of the emboss (0x12 to 0x36)
 
 
 
-if (( $out_width <= 22 )) ; then
+if (( $out_width <= 24 )) ; then
 		dilate=60
 		posterize=3
 		shadow=100x48+0+0
