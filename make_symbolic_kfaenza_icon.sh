@@ -94,6 +94,6 @@ convert -gravity center -compose screen -composite  /tmp/emboss.png /tmp/gradien
 convert /tmp/emboss_gradient.png \( +clone  -background black  -shadow $shadow \) +swap  -background none  -layers merge +repage /tmp/shadowed.png
 
 
-convert -trim /tmp/shadowed.png -resize $out_width  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"  && gpicview "$outfile"
+convert -trim /tmp/shadowed.png -resize $out_width  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
 
 
