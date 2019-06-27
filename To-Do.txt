@@ -6,3 +6,6 @@
 	* di quelli avanzati in 16, prova a rifarli ma con meno chiattume
 	* vedi se c'è qualcosa da colorare, poi
 	* Vedi se c'è qualcuno che ha bisogno di più bordo
+
+Generare icone azione anche a grandezze superiori?
+	Nelle intenzioni di breeze, potrebbe essere che prende le scalabili?
