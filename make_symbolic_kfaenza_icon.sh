@@ -6,6 +6,10 @@ out_width="$3" #output_size
 
 #--------------------------------------------------------------------------------
 
+tmpdir=$(mktemp -d)
+
+
+
 in_density=6000		#svg internal density resolution (6000=1000px)
 in_resolution=1000  #px internal resolution (make it to match in_density)
 
@@ -32,11 +36,16 @@ blur_emboss=0x24	#size of the emboss (0x12 to 0x36)
 
 
 
-if (( $out_width <= 24 )) ; then
+if (( $out_width <= 16 )) ; then
+		dilate=45
+		posterize=3
+		shadow=450x9+0+2
+		unsharp=0x0.2
+	elif (( $out_width <= 24 )) ; then
 		dilate=60
 		posterize=3
-		shadow=100x48+0+0
-		unsharp=0x0.5 
+		shadow=450x9+0+3
+		unsharp=0x0.2
 	elif (( $out_width <= 32 )) ; then
 		dilate=60
 		posterize=3
@@ -56,44 +65,49 @@ function color2alpha {
 	pinfile="$1"
 	poutfile="$2"
 	color="$3"
-	convert "$pinfile" -alpha off /tmp/tmp1.mpc
-	convert /tmp/tmp1.mpc \
+	convert "$pinfile" -alpha off $tmpdir/tmp1.mpc
+	convert $tmpdir/tmp1.mpc \
 		\( -clone 0 -fill "$color" -colorize 100 \) \
 		-compose difference -composite \
 		-separate -evaluate-sequence max \
 		-auto-level -evaluate pow 1 \
-		/tmp/tmp2.mpc
-	convert /tmp/tmp1.mpc /tmp/tmp2.mpc -alpha off -compose copy_opacity -composite "$poutfile"
-	rm /tmp/tmp2.mpc /tmp/tmp1.mpc
+		$tmpdir/tmp2.mpc
+	convert $tmpdir/tmp1.mpc $tmpdir/tmp2.mpc -alpha off -compose copy_opacity -composite "$poutfile"
+	rm $tmpdir/tmp2.mpc $tmpdir/tmp1.mpc
 }
 
 
-rm /tmp/*.png
-rm /tmp/*.png.txt
-
 #raster dell'svg:
-convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:/tmp/wb.png
+convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:$tmpdir/wb.png
 #falla ciotta
-convert  /tmp/wb.png -negate -morphology Dilate rectangle:$dilate PNG8:/tmp/bw.png 
+convert  $tmpdir/wb.png -negate -morphology Dilate rectangle:$dilate PNG8:$tmpdir/bw.png 
 #buca il nero
-convert  /tmp/bw.png   -transparent black -fuzz 0% -negate PNG32:/tmp/bwa.png
-#color2alpha /tmp/bw.png /tmp/bwa1.png black
-#convert /tmp/bwa1.png -negate /tmp/bwa.png
+convert  $tmpdir/bw.png   -transparent black -fuzz 0% -negate PNG32:$tmpdir/bwa.png
+#color2alpha $tmpdir/bw.png $tmpdir/bwa1.png black
+#convert $tmpdir/bwa1.png -negate $tmpdir/bwa.png
 
 #emboss
-convert  /tmp/bwa.png  -alpha deactivate  -blur $blur_emboss  -shade 90x45 -alpha activate -normalize -level 100% -normalize -posterize $posterize PNG8:/tmp/emboss.png
+convert  $tmpdir/bwa.png  -alpha deactivate  -blur $blur_emboss  -shade 90x45 -alpha activate -normalize -level 100% -normalize -posterize $posterize PNG8:$tmpdir/emboss.png
 #fai un trim temporaneo per capire quanto dovrà essere alto il gradiente e scrivi le info in 2 file
-convert /tmp/bw.png -trim -format '%h' -write info:/tmp/h.png.txt -format '%w' -write info:/tmp/w.png.txt /tmp/delme.png
+convert $tmpdir/bw.png -trim -format '%h' -write info:$tmpdir/h.png.txt -format '%w' -write info:$tmpdir/w.png.txt $tmpdir/delme.png
 #assegna a due variabili
-w=$(cat /tmp/w.png.txt) ; h=$(cat /tmp/h.png.txt)
+w=$(cat $tmpdir/w.png.txt) ; h=$(cat $tmpdir/h.png.txt)
 #crea un gradiente della grandezza dell'immagine trimmata, non so perchè, ma gli devo dare un 20% in più all'altezza
-convert -size "$w"x"$h" gradient:#dbdbdb-#606060 -resize 200%x120% /tmp/gradient.png
+convert -size "$w"x"$h" gradient:#dbdbdb-#606060 -resize 200%x120% $tmpdir/gradient.png
 #disegna il gradiente sull'immagine, al centro.
-convert -gravity center -compose screen -composite  /tmp/emboss.png /tmp/gradient.png  /tmp/emboss.png /tmp/emboss_gradient.png
+convert -gravity center -compose screen -composite  $tmpdir/emboss.png $tmpdir/gradient.png  $tmpdir/emboss.png $tmpdir/emboss_gradient.png
 
-convert /tmp/emboss_gradient.png \( +clone  -background black  -shadow $shadow \) +swap  -background none  -layers merge +repage /tmp/shadowed.png
+convert $tmpdir/emboss_gradient.png \( +clone  -background black  -shadow $shadow  \) +swap  -background none  -layers merge +repage $tmpdir/shadowed.png
 
+if (( $w > $h )) ; then 
+	resizeoption=$out_width
+		else
+	resizeoption=x"$out_width"
+fi
 
-convert -trim /tmp/shadowed.png -resize $out_width  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
+convert -trim $tmpdir/shadowed.png -resize $resizeoption $tmpdir/trimmed.resized.png
 
+convert -trim $tmpdir/shadowed.png -resize $resizeoption  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
+
+rm -R $tmpdir
 
