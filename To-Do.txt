@@ -1,9 +1,7 @@
-* aggiungi nell'index le cartelle source-by-size, ma con priorità minima
 * considera di modificare la gamma dei nuovi arrivati in modo da renderli più contrastati
 * se lo fai, aggiungi la riga anche nello script principale per le size basse.
 * script per sostituire i dupluicati con link ad essi
 * Dividi gli avanzati:
-	* di quelli avanzati in 16, prova a rifarli ma con meno chiattume
 	* vedi se c'è qualcosa da colorare, poi
 	* Vedi se c'è qualcuno che ha bisogno di più bordo
 
