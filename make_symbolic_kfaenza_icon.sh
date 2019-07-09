@@ -8,8 +8,6 @@ out_width="$3" #output_size
 
 tmpdir=$(mktemp -d)
 
-
-
 in_density=6000		#svg internal density resolution (6000=1000px)
 in_resolution=1000  #px internal resolution (make it to match in_density)
 
@@ -78,9 +76,10 @@ function color2alpha {
 
 
 #raster dell'svg:
-convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:$tmpdir/wb.png
+#convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:$tmpdir/wb.png
+convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast -fill "#000000" -opaque "#101010" -fuzz 20% -fill "#ffffff" -opaque "#eeeeee" -fuzz 20%  $infile PNG8:$tmpdir/wb.png
 #falla ciotta
-convert  $tmpdir/wb.png -negate -morphology Dilate rectangle:$dilate PNG8:$tmpdir/bw.png 
+convert  $tmpdir/wb.png -negate -morphology Dilate rectangle:$dilate  PNG8:$tmpdir/bw.png 
 #buca il nero
 convert  $tmpdir/bw.png   -transparent black -fuzz 0% -negate PNG32:$tmpdir/bwa.png
 #color2alpha $tmpdir/bw.png $tmpdir/bwa1.png black
@@ -105,9 +104,22 @@ if (( $w > $h )) ; then
 	resizeoption=x"$out_width"
 fi
 
-convert -trim $tmpdir/shadowed.png -resize $resizeoption $tmpdir/trimmed.resized.png
+#ricava una maschera di colore per ripristinare le informazioni cromatiche
+	#convert -background white -density $in_density  -fill "#000000" -opaque "#101010" -fuzz 20%     -resize $in_resolution $infile PNG8:$tmpdir/c1.png
+	#convert  $tmpdir/c1.png -negate -morphology Dilate rectangle:$dilate PNG8:$tmpdir/c2.png
+	#convert $tmpdir/c2.png -negate -transparent white  $tmpdir/colors.png
 
-convert -trim $tmpdir/shadowed.png -resize $resizeoption  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
+	#convert $tmpdir/bw.png -negate -transparent white  -modulate 100,300,100 $tmpdir/colors.png
 
-rm -R $tmpdir
+	convert -density $(( $in_density*2 )) $infile -filter point -resize $(( $in_resolution/4 )) -morphology Erode rectangle:$(( $dilate/4 )) -fuzz 20% -transparent white -fuzz 20% -transparent black  -alpha on -channel A -fx "saturation<0.05?0:1"  -resize $in_resolution  -modulate 100,100,100 $tmpdir/colors.png
+	
+	
+#Componi e ripristina il colore (e aumenta la saturazione via modulate)
+
+convert $tmpdir/shadowed.png  $tmpdir/colors.png -gravity center -compose darken -composite  png32:$tmpdir/shadowed_colored.png
+
+
+convert -trim $tmpdir/shadowed_colored.png -resize $resizeoption  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
+
+#rm -R $tmpdir
 
