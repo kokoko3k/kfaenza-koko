@@ -76,8 +76,8 @@ function color2alpha {
 
 
 #raster dell'svg:
-#convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:$tmpdir/wb.png
-convert -background white -flatten -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast -fill "#000000" -opaque "#101010" -fuzz 20% -fill "#ffffff" -opaque "#eeeeee" -fuzz 20%  $infile PNG8:$tmpdir/wb.png
+convert -background white -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast  $infile PNG8:$tmpdir/wb.png
+#convert -background white -flatten -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast -fill "#000000" -opaque "#101010" -fuzz 20% -fill "#ffffff" -opaque "#eeeeee" -fuzz 20%  $infile PNG8:$tmpdir/wb.png
 
 #falla ciotta
 convert  $tmpdir/wb.png -negate -morphology Dilate rectangle:$dilate  PNG8:$tmpdir/bw.png 
