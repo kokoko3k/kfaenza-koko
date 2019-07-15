@@ -11,6 +11,21 @@ Generare icone azione anche a grandezze superiori?
 cerca tutti gli "add, new, insert" e colora i "+"
 con e17f01, HSL color, opacità 66 o 100%
 
+
+
+
+icona microfono è invisibile nella barra del menu
+campanella non disturbare sfocata in notifiche
+
+
+cambia wrench.png dappertutto
+
+
+
+
+
+
+
 note:
 per replicare il rosso kfaenza:
 	/colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/system-reboot.png "#d00600" 40 linearlight
@@ -18,3 +33,4 @@ pre un colore tipo oro:
 	./colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/underexposure.png "#ff7f01" 60 overlay
 	...oppure più carico:
 	./colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/underexposure.png "#ff7f01" 100 overlay
+

@@ -4,6 +4,8 @@ infile="$1"
 outfile="$2"
 out_width="$3" #output_size
 
+echo "infile outfile output width dilate_(optional)"
+
 #--------------------------------------------------------------------------------
 
 tmpdir=$(mktemp -d)
@@ -11,15 +13,14 @@ tmpdir=$(mktemp -d)
 in_density=6000		#svg internal density resolution (6000=1000px)
 in_resolution=1000  #px internal resolution (make it to match in_density)
 
-dilate=30			#fatness 
-					#16px-64px: 60 
+dilate=30			#fatness
+					#16px-64px: 60
 					#>64px: 30
 
 posterize=256		#reduce shades while embossing
 					#16 to 64: 3
 					#>64: 256
-					
-shadow=50x12+0+8	#final shadow 
+shadow=50x12+0+8	#final shadow
 					#16px: 100x48+0+0
 					#32px::100x24+0+4
 					#64px_out:100x18+0+6
@@ -29,7 +30,6 @@ unsharp=0x00		#additional sharpening to the final image
 					#16px:0x0.5 
 					#32 to 64: 0x0.38
 					#else:0x0
-					
 blur_emboss=0x24	#size of the emboss (0x12 to 0x36)
 
 
@@ -40,7 +40,7 @@ if (( $out_width <= 16 )) ; then
 		shadow=450x9+0+2
 		unsharp=0x0.2
 	elif (( $out_width <= 24 )) ; then
-		dilate=60
+		dilate=40
 		posterize=3
 		shadow=450x9+0+3
 		unsharp=0x0.2
@@ -54,6 +54,13 @@ if (( $out_width <= 16 )) ; then
 		posterize=3
 		shadow=100x18+0+6
 		unsharp=0x0.38
+fi
+
+
+#check if fourth parameter is set, if it is, use it as dilate parameter
+if [ "$4_" != "_" ] ; then 
+	dilate=$4 ;
+	echo "Overriding: dilate=$dilate"
 fi
 
 echo "$dilate" "$posterize" "$shadow" "$unsharp"
