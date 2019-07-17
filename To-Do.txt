@@ -15,22 +15,33 @@ con e17f01, HSL color, opacità 66 o 100%
 
 
 icona microfono è invisibile nella barra del menu
-campanella non disturbare sfocata in notifiche
+campanella non disturbare sfocata in notifiche (notifications-disabled.png)
 
 
 cambia wrench.png dappertutto
 
 
-
+copo che avremo finito col prg gambas:
+	ci sono alcune icone che non ha trovato nel processo;
+	probabilmente perchè mancavano a dimensione 16.
+	quindi ciò che va fatto è trovare le icone che sono state modificate negli
+	ultimi (diciamo 3 giorni) e non toccarle.
+	poi prendere quelle fatte da inizio luglio ad oggi (meno 3 gg)
+	e rifarle a partire da 22/24 a vari dilate differenti e ripetere
+	quello fatto con gambas.
 
 
 
 
 note:
 per replicare il rosso kfaenza:
-	/colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/system-reboot.png "#d00600" 40 linearlight
+	/colorize.sh /home/koko/.local/share/icons/kfaenza-koko/source-by-size/24/document-close.png  "#e80800" 35 linearlight 
+...oppure:
+	/colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/system-reboot.png "#c00600" 40 linearlight
+	
 pre un colore tipo oro:
 	./colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/underexposure.png "#ff7f01" 60 overlay
 	...oppure più carico:
 	./colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/underexposure.png "#ff7f01" 100 overlay
+
 
