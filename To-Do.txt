@@ -36,6 +36,9 @@ a size 16 ci sono 2 X una rosso chiaro, l'altra rosso scuro.
 
 il "link here" di dolphin sembra troncato (clip laterale)
 
+alcuni file sono poco "chiari", può essere utile usare questo:
+	mogrify -level 0%,95%
+
 note:
 per replicare il rosso kfaenza:
 	/colorize.sh /home/koko/.local/share/icons/kfaenza-koko/source-by-size/24/document-close.png  "#e80800" 35 linearlight 
@@ -58,3 +61,6 @@ Oppenere la saturazione massima (non usare /*, ma /*.png, non chiedermi perchè)
 
 Per ottenere png più piccole, usare:
 	-define png:compression-level=9 -strip -depth 8
+
+
+	
