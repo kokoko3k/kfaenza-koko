@@ -30,7 +30,8 @@ copo che avremo finito col prg gambas:
 	e rifarle a partire da 22/24 a vari dilate differenti e ripetere
 	quello fatto con gambas.
 
-
+a size 16 ci sono 2 X una rosso chiaro, l'altra rosso scuro.
+...oppure cercare le icone che sono presenti in 22 e non in 16 e ricavare le mancanti ;)
 
 
 note:
