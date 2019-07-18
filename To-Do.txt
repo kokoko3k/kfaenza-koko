@@ -45,4 +45,15 @@ pre un colore tipo oro:
 	...oppure più carico:
 	./colorize.sh /koko/.local/share/icons/kfaenza-koko/working/breeze/actions/22/underexposure.png "#ff7f01" 100 overlay
 
+Per ottenere la luminosità media tralasciando i pixel trasparenti:
+	convert /koko/.local/share/icons/kfaenza-koko/source-by-size/16/lights-up/*.png   -scale 1x1! -alpha off -format '%[fx:mean.luminance] %M \n'  info:
+
+Oppenere una media della saturazione (non usare /*, ma /*.png, non chiedermi perchè)
+	convert /koko/.local/share/icons/kfaenza-koko/source-by-size/16/lights-up/*.png  -colorspace HCL -format 'avg=%[fx:mean.g] %M\n' info: >/tmp/colors.txt
+
+Oppenere la saturazione massima (non usare /*, ma /*.png, non chiedermi perchè)
+	convert /koko/.local/share/icons/kfaenza-koko/source-by-size/16/lights-up/*.png  -colorspace HCL -format 'avg=%[fx:maxima.g] %M\n' info: >/tmp/colors.txt
+
+Per ottenere png più piccole, usare:
+	-define png:compression-level=9 -strip -depth 8
 
