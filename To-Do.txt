@@ -12,29 +12,10 @@ cerca tutti gli "add, new, insert" e colora i "+"
 con e17f01, HSL color, opacità 66 o 100%
 
 
-
-
 icona microfono è invisibile nella barra del menu
-campanella non disturbare sfocata in notifiche (notifications-disabled.png)
 
 
 cambia wrench.png dappertutto
-
-
-copo che avremo finito col prg gambas:
-	ci sono alcune icone che non ha trovato nel processo;
-	probabilmente perchè mancavano a dimensione 16.
-	quindi ciò che va fatto è trovare le icone che sono state modificate negli
-	ultimi (diciamo 3 giorni) e non toccarle.
-	poi prendere quelle fatte da inizio luglio ad oggi (meno 3 gg)
-	e rifarle a partire da 22/24 a vari dilate differenti e ripetere
-	quello fatto con gambas.
-
-a size 16 ci sono 2 X una rosso chiaro, l'altra rosso scuro.
-...oppure cercare le icone che sono presenti in 22 e non in 16 e ricavare le mancanti ;)
-
-
-il "link here" di dolphin sembra troncato (clip laterale)
 
 alcuni file sono poco "chiari", può essere utile usare questo:
 	mogrify -level 0%,95%
@@ -63,4 +44,5 @@ Per ottenere png più piccole, usare:
 	-define png:compression-level=9 -strip -depth 8
 
 
-	
+creare al volo varie dimensioni e versioni dell'icona:
+	name=editpath ; for size in 16 22 24 32 ; do for dilate in 10 23 37 50 ; do dest=/koko/.local/share/icons/kfaenza-koko/tmp/$name/$size/$dilate ; echo $dest ; mkdir -p $dest ; mkdir $dest/lightsup ; /koko/.local/share/icons/kfaenza-koko/make_symbolic_kfaenza_icon.sh /usr/share/icons/breeze/actions/$size/$name.svg $dest/$name.png  $size $dilate ; convert $dest/$name.png -level 0%,95% $dest/lightsup/$name.png ; done ; done
