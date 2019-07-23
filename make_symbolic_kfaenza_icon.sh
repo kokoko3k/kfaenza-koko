@@ -42,7 +42,8 @@ if (( $out_width <= 16 )) ; then
 	elif (( $out_width <= 24 )) ; then
 		dilate=40
 		posterize=3
-		shadow=450x9+0+3
+		#shadow=450x9+0+3
+		shadow=350x9+0+3
 		unsharp=0x0.2
 	elif (( $out_width <= 32 )) ; then
 		dilate=60
@@ -87,7 +88,7 @@ convert -background white -density $in_density -resize $in_resolution -contrast 
 #convert -background white -flatten -density $in_density -resize $in_resolution -contrast -contrast -contrast  -contrast -contrast -contrast -fill "#000000" -opaque "#101010" -fuzz 20% -fill "#ffffff" -opaque "#eeeeee" -fuzz 20%  $infile PNG8:$tmpdir/wb.png
 
 #falla ciotta
-convert  $tmpdir/wb.png -negate -morphology Dilate rectangle:$dilate  PNG8:$tmpdir/bw.png 
+convert  $tmpdir/wb.png -channel RGB -negate -morphology Dilate rectangle:$dilate  PNG8:$tmpdir/bw.png 
 #buca il nero
 convert  $tmpdir/bw.png   -transparent black -fuzz 0% -negate PNG32:$tmpdir/bwa.png
 #color2alpha $tmpdir/bw.png $tmpdir/bwa1.png black
@@ -127,7 +128,8 @@ fi
 convert $tmpdir/shadowed.png  $tmpdir/colors.png -gravity center -compose darken -composite  png32:$tmpdir/shadowed_colored.png
 
 
-convert -trim $tmpdir/shadowed_colored.png -resize $resizeoption  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width"  PNG32:"$outfile"
+convert -trim $tmpdir/shadowed_colored.png -filter lanczos -resize $resizeoption  -background none -gravity center  -extent "$out_width"x"$out_width" -strip PNG32:"$outfile"
 
-rm -R $tmpdir
+echo $tmpdir
+#rm -R $tmpdir
 
