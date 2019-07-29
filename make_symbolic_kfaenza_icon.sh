@@ -136,6 +136,6 @@ convert $tmpdir/shadowed.png  $tmpdir/colors.png -gravity center -compose darken
 
 convert -trim $tmpdir/shadowed_colored.png  -filter $filter -resize $resizeoption  -background none -gravity center -unsharp $unsharp -extent "$out_width"x"$out_width" -strip PNG32:"$outfile"
 
-echo $tmpdir
-#rm -R $tmpdir
+#echo $tmpdir
+rm -R $tmpdir
 
